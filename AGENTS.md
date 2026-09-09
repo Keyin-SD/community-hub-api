@@ -16,7 +16,7 @@ A Spring Boot + MySQL API that manages a list of community resources (e.g. Commu
 
 Follow standard Spring Boot layering — do not collapse layers or skip one:
 
-- **Entity** (`com.communityhub.resources`) — the data model for a resource, with fields: Title, Description, Category, Type, Date, Time, Location, Cost, Contact Name, Contact Email, Contact Phone, Website.
+- **Entity** (`com.communityhub.resource`) — the data model for a resource, with fields: Title, Description, Category, Type, Date, Time, Location, Cost, Contact Name, Contact Email, Contact Phone, Website.
 - **Repository** — Spring Data JPA data access layer.
 - **Service** — business logic; controllers should not talk to repositories directly.
 - **Controller** — HTTP request/response handling only.

@@ -85,7 +85,7 @@ This project follows standard Spring Boot conventions with a layered architectur
 
 ### Local Configuration
 
-`application.properties` is excluded from version control via `.gitignore`. Create your own local copy in `src/main/resources/application.properties` with the following:
+Before running the app, make sure you have a local MySQL database set up and running. `application.properties` is excluded from version control via `.gitignore`, so each student needs to create their own local copy at `src/main/resources/application.properties` with the following:
 
 ```properties
 spring.jpa.hibernate.ddl-auto=update

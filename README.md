@@ -104,7 +104,7 @@ Fill in your `spring.datasource.username` and `spring.datasource.password` with 
 Once the app is running, Swagger docs are available at:
 
 ```
-/api-docs
+/swagger-ui/index.html
 ```
 
 > Note: This endpoint is not currently secured with authentication.

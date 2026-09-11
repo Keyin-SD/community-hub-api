@@ -73,7 +73,7 @@ This project follows standard Spring Boot conventions with a layered architectur
 
 - **Framework:** Spring Boot
 - **Database:** MySQL
-- **API Docs:** Swagger, available at `/api-docs` (no auth on this endpoint yet)
+- **API Docs:** Swagger, available at `/swagger-ui/index.html` (no auth on this endpoint yet)
 
 ## Getting Started
 
@@ -107,7 +107,7 @@ Use the provided `run.sh` script, which loads the variables from `.env` and star
 Once the app is running, Swagger docs are available at:
 
 ```
-/api-docs
+/swagger-ui/index.html
 ```
 
 > Note: This endpoint is not currently secured with authentication.

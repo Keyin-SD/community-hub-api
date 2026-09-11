@@ -73,7 +73,7 @@ This project follows standard Spring Boot conventions with a layered architectur
 
 - **Framework:** Spring Boot
 - **Database:** MySQL
-- **API Docs:** Swagger, available at `/api-docs` (no auth on this endpoint yet)
+- **API Docs:** Swagger, available at `/swagger-ui/index.html` (no auth on this endpoint yet)
 
 ## Getting Started
 

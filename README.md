@@ -85,18 +85,21 @@ This project follows standard Spring Boot conventions with a layered architectur
 
 ### Local Configuration
 
-Before running the app, make sure you have a local MySQL database set up and running. `application.properties` is excluded from version control via `.gitignore`, so each student needs to create their own local copy at `src/main/resources/application.properties` with the following:
+Before running the app, make sure you have a local MySQL database set up and running. Database credentials are read from environment variables rather than being committed to the repo. Copy `.env.example` to `.env` in the project root (`.env` is excluded from version control via `.gitignore`) and fill in your local MySQL credentials:
 
-```properties
-spring.jpa.hibernate.ddl-auto=update
-spring.datasource.url=jdbc:mysql://localhost:3306
-spring.datasource.username=
-spring.datasource.password=
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.jpa.show-sql=true
+```
+DB_URL=jdbc:mysql://localhost:3306/community_hub_db
+DB_USERNAME=your_mysql_username
+DB_PASSWORD=your_mysql_password
 ```
 
-Fill in your `spring.datasource.username` and `spring.datasource.password` with your local MySQL credentials.
+### Running the App
+
+Use the provided `run.sh` script, which loads the variables from `.env` and starts the app:
+
+```bash
+./run.sh
+```
 
 
 ## API Documentation

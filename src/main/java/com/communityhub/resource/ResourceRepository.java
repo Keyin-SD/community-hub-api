@@ -5,4 +5,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ResourceRepository extends JpaRepository<Resource, Long> {
+    Iterable<Resource> findByResourceCategoryIgnoreCase(String resourceCategory);
+
+    Iterable<Resource> findByResourceTitleContainingIgnoreCase(String resourceTitle);
+
+    Iterable<Resource> findByContactNameContainingIgnoreCase(String contactName);
+
+    Iterable<Resource> findByResourceLocationContainingIgnoreCase(String resourceLocation);
 }

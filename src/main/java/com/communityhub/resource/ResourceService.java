@@ -54,4 +54,56 @@ public class ResourceService {
         }
         resourceRepository.deleteById(id);
     }
+
+    public Optional<Resource> updateResource(Long id, Resource updatedResource) {
+        return resourceRepository.findById(id).map(existingResource -> {
+            existingResource.setResourceTitle(updatedResource.getResourceTitle());
+            existingResource.setResourceDescription(updatedResource.getResourceDescription());
+            existingResource.setResourceCategory(updatedResource.getResourceCategory());
+            existingResource.setResourceTime(updatedResource.getResourceTime());
+            existingResource.setResourceLocation(updatedResource.getResourceLocation());
+            existingResource.setResourcePrice(updatedResource.getResourcePrice());
+            existingResource.setContactName(updatedResource.getContactName());
+            existingResource.setContactEmail(updatedResource.getContactEmail());
+            existingResource.setContactPhone(updatedResource.getContactPhone());
+            existingResource.setContactWebsiteUrl(updatedResource.getContactWebsiteUrl());
+            return resourceRepository.save(existingResource);
+        });
+    }
+
+    public Optional<Resource> patchResource(Long id, Resource patch) {
+        return resourceRepository.findById(id).map(existingResource -> {
+            if (patch.getResourceTitle() != null) {
+                existingResource.setResourceTitle(patch.getResourceTitle());
+            }
+            if (patch.getResourceDescription() != null) {
+                existingResource.setResourceDescription(patch.getResourceDescription());
+            }
+            if (patch.getResourceCategory() != null) {
+                existingResource.setResourceCategory(patch.getResourceCategory());
+            }
+            if (patch.getResourceTime() != null) {
+                existingResource.setResourceTime(patch.getResourceTime());
+            }
+            if (patch.getResourceLocation() != null) {
+                existingResource.setResourceLocation(patch.getResourceLocation());
+            }
+            if (patch.getResourcePrice() != null) {
+                existingResource.setResourcePrice(patch.getResourcePrice());
+            }
+            if (patch.getContactName() != null) {
+                existingResource.setContactName(patch.getContactName());
+            }
+            if (patch.getContactEmail() != null) {
+                existingResource.setContactEmail(patch.getContactEmail());
+            }
+            if (patch.getContactPhone() != null) {
+                existingResource.setContactPhone(patch.getContactPhone());
+            }
+            if (patch.getContactWebsiteUrl() != null) {
+                existingResource.setContactWebsiteUrl(patch.getContactWebsiteUrl());
+            }
+            return resourceRepository.save(existingResource);
+        });
+    }
 }

@@ -59,4 +59,18 @@ public class ResourceController {
         resourceService.removeResource(id);
         return ResponseEntity.ok("Resource deleted successfully");
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Resource> updateResource(@PathVariable Long id, @RequestBody Resource resource) {
+        return resourceService.updateResource(id, resource)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @PatchMapping("{id}")
+    public ResponseEntity<Resource> patchResource(@PathVariable Long id, @RequestBody Resource resource) {
+        return resourceService.patchResource(id, resource)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 }

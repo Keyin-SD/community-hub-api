@@ -15,13 +15,13 @@ public class Resource {
     private String resourceCategory;
     private String resourceTime;
     private String resourceLocation;
-    private double resourcePrice;
+    private Double resourcePrice;
     private String contactName;
     private String contactEmail;
     private String contactPhone;
     private String contactWebsiteUrl;
 
-    public Resource(String resourceTitle, String resourceDescription, String resourceCategory, String resourceTime, String resourceLocation, double resourcePrice, String contactName, String contactEmail, String contactPhone, String contactWebsiteUrl) {
+    public Resource(String resourceTitle, String resourceDescription, String resourceCategory, String resourceTime, String resourceLocation, Double resourcePrice, String contactName, String contactEmail, String contactPhone, String contactWebsiteUrl) {
         this.resourceTitle = resourceTitle;
         this.resourceDescription = resourceDescription;
         this.resourceCategory = resourceCategory;
@@ -85,11 +85,11 @@ public class Resource {
         this.resourceLocation = resourceLocation;
     }
 
-    public double getResourcePrice() {
+    public Double getResourcePrice() {
         return resourcePrice;
     }
 
-    public void setResourcePrice(double resourcePrice) {
+    public void setResourcePrice(Double resourcePrice) {
         this.resourcePrice = resourcePrice;
     }
 

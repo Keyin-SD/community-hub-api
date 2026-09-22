@@ -49,4 +49,14 @@ public class ResourceController {
     public ResponseEntity<Iterable<Resource>> searchByLocation(@PathVariable String location) {
         return ResponseEntity.ok(resourceService.searchResourcesByLocation(location));
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteResource(@PathVariable Long id) {
+        if (resourceService.searchResourceById(id).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found");
+        }
+
+        resourceService.removeResource(id);
+        return ResponseEntity.ok("Resource deleted successfully");
+    }
 }

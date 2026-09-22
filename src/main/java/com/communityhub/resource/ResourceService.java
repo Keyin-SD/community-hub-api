@@ -47,4 +47,11 @@ public class ResourceService {
     public Iterable<Resource> searchResourcesByLocation(String location) {
         return resourceRepository.findByResourceLocationContainingIgnoreCase(location);
     }
+
+    public void removeResource(Long id) {
+        if(id == null) {
+            throw new IllegalArgumentException("Resource ID cannot be null");
+        }
+        resourceRepository.deleteById(id);
+    }
 }

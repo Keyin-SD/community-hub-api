@@ -4,9 +4,9 @@ This file gives AI coding agents (Claude Code, Cursor, Copilot, Codex, etc.) the
 
 ## Project Status
 
-This repository is currently a boilerplate/starter shell for the Community Hub API. There is no working application code yet — `pom.xml` has no dependencies configured (not even the Spring Boot parent), and `src/main/java/com/communityhub/resources/Resources.java` is an empty placeholder class. Treat any commands below as the intended workflow once the project is scaffolded, not as things that currently succeed.
+The core CRUD API is implemented and working: create, get all, get by ID, search (by category/title/contact name/location), full update (PUT), partial update (PATCH), and delete are all live in `com.communityhub.resource`. Swagger/OpenAPI docs are wired up. Remaining MVP work is mostly around pagination, frontend integration, and deployment — check `README.md`'s MVP Scope for current gaps.
 
-Read `README.md` before starting work — it defines the MVP scope and data model this project is building toward.
+Read `README.md` before starting work — it defines the MVP scope, data model, and full endpoint list this project is building toward.
 
 ## What This Project Is
 
@@ -33,7 +33,7 @@ Alongside CRUD endpoints, the API needs a **search** capability so the frontend 
 
 ## Commands
 
-Once the project has a Spring Boot parent and dependencies wired up in `pom.xml`, the standard Maven workflow applies:
+Standard Maven workflow:
 
 ```bash
 mvn spring-boot:run       # run the app locally
@@ -41,7 +41,9 @@ mvn test                  # run the full test suite
 mvn test -Dtest=ClassName#methodName   # run a single test
 mvn clean package          # build a jar
 
-or just use the IDE to run with the UI if the user wants to 
+or just use the IDE to run with the UI if the user wants to
 ```
+
+Alternatively, use `./run.sh` (loads env vars from `.env`, see README).
 
 There is no test suite in the repository yet.

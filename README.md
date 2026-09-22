@@ -9,6 +9,7 @@ Community Hub API is a Spring Boot backend that manages a list of community reso
 - [Example Resources](#example-resources)
 - [Resource Data Model](#resource-data-model)
 - [Architecture](#architecture)
+- [API Endpoints](#api-endpoints)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [API Documentation](#api-documentation)
@@ -68,6 +69,23 @@ This project follows standard Spring Boot conventions with a layered architectur
 - **Repository** — handles the data access layer
 - **Service** — contains the business logic
 - **Controller** — handles HTTP requests and responses
+
+## API Endpoints
+
+All endpoints are under the `api/resources` base path.
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/api/resources` | Create a resource |
+| GET | `/api/resources/allResources` | Get all resources |
+| GET | `/api/resources/searchResourceById/{resourceId}` | Get a resource by ID |
+| GET | `/api/resources/searchByCategory/{category}` | Search resources by category |
+| GET | `/api/resources/searchByTitle/{title}` | Search resources by title |
+| GET | `/api/resources/searchByContactName/{contactName}` | Search resources by contact name |
+| GET | `/api/resources/searchByLocation/{location}` | Search resources by location |
+| PUT | `/api/resources/{id}` | Full update — replaces all fields on the resource |
+| PATCH | `/api/resources/{id}` | Partial update — only overwrites fields present in the request body |
+| DELETE | `/api/resources/{id}` | Delete a resource |
 
 ## Tech Stack
 

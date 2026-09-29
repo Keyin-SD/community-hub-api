@@ -11,5 +11,5 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
 
     Iterable<Resource> findByContactNameContainingIgnoreCase(String contactName);
 
-    Iterable<Resource> findByResourceLocationContainingIgnoreCase(String resourceLocation);
+    Iterable<Resource> findByLocation_LocationNameContainingIgnoreCase(String locationName);
 }

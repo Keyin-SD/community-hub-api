@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/resources")
+@CrossOrigin(origins = {"http://localhost:5173", "https://your-frontend-domain"})
 public class ResourceController {
     @Autowired
     private ResourceService resourceService;

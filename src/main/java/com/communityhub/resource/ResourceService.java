@@ -1,5 +1,7 @@
 package com.communityhub.resource;
 
+import com.communityhub.location.Location;
+import com.communityhub.location.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +12,59 @@ public class ResourceService {
     @Autowired
     private ResourceRepository resourceRepository;
 
+    @Autowired
+    private LocationRepository locationRepository;
+
+    private void resolveLocation(Resource resource) {
+        // If a location object was sent directly (with name + address), match on both
+        if (resource.getLocation() != null && resource.getLocation().getLocationName() != null) {
+            Location incoming = resource.getLocation();
+            String name = incoming.getLocationName();
+            String address = incoming.getLocationAddress();
+
+            Location location;
+            if (address != null) {
+                location = locationRepository
+                        .findByLocationNameIgnoreCaseAndLocationAddressIgnoreCase(name, address)
+                        .orElseGet(() -> {
+                            Location newLocation = new Location();
+                            newLocation.setLocationName(name);
+                            newLocation.setLocationAddress(address);
+                            newLocation.setLocationCity(incoming.getLocationCity());
+                            return locationRepository.save(newLocation);
+                        });
+            } else {
+                location = locationRepository
+                        .findByLocationNameIgnoreCase(name)
+                        .orElseGet(() -> {
+                            Location newLocation = new Location();
+                            newLocation.setLocationName(name);
+                            newLocation.setLocationCity(incoming.getLocationCity());
+                            return locationRepository.save(newLocation);
+                        });
+            }
+            resource.setLocation(location);
+        }
+        // Fallback: if only the old resourceLocation string was sent, match by name only
+        else if (resource.getResourceLocation() != null) {
+            Location location = locationRepository
+                    .findByLocationNameIgnoreCase(resource.getResourceLocation())
+                    .orElseGet(() -> {
+                        Location newLocation = new Location();
+                        newLocation.setLocationName(resource.getResourceLocation());
+                        return locationRepository.save(newLocation);
+                    });
+            resource.setLocation(location);
+        }
+    }
+
 
     public void createResource(Resource resource) {
         if(resource == null || resource.getResourceTitle() == null) {
             throw new IllegalArgumentException("Resource cannot be null or have null fields");
         }
+        resource.setResourceId(null);
+        resolveLocation(resource);
         resourceRepository.save(resource);
     }
 
@@ -45,7 +95,7 @@ public class ResourceService {
     }
 
     public Iterable<Resource> searchResourcesByLocation(String location) {
-        return resourceRepository.findByResourceLocationContainingIgnoreCase(location);
+        return resourceRepository.findByLocation_LocationNameContainingIgnoreCase(location);
     }
 
     public void removeResource(Long id) {
@@ -67,6 +117,7 @@ public class ResourceService {
             existingResource.setContactEmail(updatedResource.getContactEmail());
             existingResource.setContactPhone(updatedResource.getContactPhone());
             existingResource.setContactWebsiteUrl(updatedResource.getContactWebsiteUrl());
+            resolveLocation(existingResource);
             return resourceRepository.save(existingResource);
         });
     }
@@ -102,6 +153,10 @@ public class ResourceService {
             }
             if (patch.getContactWebsiteUrl() != null) {
                 existingResource.setContactWebsiteUrl(patch.getContactWebsiteUrl());
+            }
+            if (patch.getResourceLocation() != null) {
+                existingResource.setResourceLocation(patch.getResourceLocation());
+                resolveLocation(existingResource);
             }
             return resourceRepository.save(existingResource);
         });

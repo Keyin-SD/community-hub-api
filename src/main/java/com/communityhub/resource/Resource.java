@@ -1,9 +1,12 @@
 package com.communityhub.resource;
 
+import com.communityhub.location.Location;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Resource {
@@ -20,6 +23,10 @@ public class Resource {
     private String contactEmail;
     private String contactPhone;
     private String contactWebsiteUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     public Resource(String resourceTitle, String resourceDescription, String resourceCategory, String resourceTime, String resourceLocation, Double resourcePrice, String contactName, String contactEmail, String contactPhone, String contactWebsiteUrl) {
         this.resourceTitle = resourceTitle;
@@ -123,6 +130,14 @@ public class Resource {
 
     public void setContactWebsiteUrl(String contactWebsiteUrl) {
         this.contactWebsiteUrl = contactWebsiteUrl;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     @Override

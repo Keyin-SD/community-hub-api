@@ -1,11 +1,14 @@
 package com.communityhub.location;
 
+import com.communityhub.city.City;
 import com.communityhub.resource.Resource;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 
@@ -16,23 +19,26 @@ public class Location {
     private Long locationId;
     private String locationName;
     private String locationAddress;
-    private String locationCity;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @OneToMany(mappedBy = "location")
     @JsonIgnore
     private List<Resource> resources;
 
-    public Location(Long locationId, String locationName, String locationAddress, String locationCity) {
+    public Location(Long locationId, String locationName, String locationAddress, City city) {
         this.locationId = locationId;
         this.locationName = locationName;
         this.locationAddress = locationAddress;
-        this.locationCity = locationCity;
+        this.city = city;
     }
 
-    public Location(String locationName, String locationAddress, String locationCity) {
+    public Location(String locationName, String locationAddress, City city) {
         this.locationName = locationName;
         this.locationAddress = locationAddress;
-        this.locationCity = locationCity;
+        this.city = city;
     }
 
     public Location() {
@@ -62,12 +68,12 @@ public class Location {
         this.locationAddress = locationAddress;
     }
 
-    public String getLocationCity() {
-        return locationCity;
+    public City getCity() {
+        return city;
     }
 
-    public void setLocationCity(String locationCity) {
-        this.locationCity = locationCity;
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public List<Resource> getResources() {

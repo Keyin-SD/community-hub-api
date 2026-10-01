@@ -1,6 +1,9 @@
 package com.communityhub.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +22,12 @@ public class ResourceController {
     }
 
     @GetMapping("allResources")
-    public ResponseEntity<Iterable<Resource>> getAllResources() {
-        Iterable<Resource> resources = resourceService.getAllResources();
+    public ResponseEntity<Page<Resource>> getAllResources(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "resourceId") String sortBy) {
+        Page<Resource> resources = resourceService.getAllResources(
+                PageRequest.of(page, size, Sort.by(sortBy)));
         return ResponseEntity.ok(resources);
     }
 
@@ -49,6 +56,11 @@ public class ResourceController {
     @GetMapping("searchByLocation/{location}")
     public ResponseEntity<Iterable<Resource>> searchByLocation(@PathVariable String location) {
         return ResponseEntity.ok(resourceService.searchResourcesByLocation(location));
+    }
+
+    @GetMapping("searchByCity/{city}")
+    public ResponseEntity<Iterable<Resource>> searchByCity(@PathVariable String city) {
+        return ResponseEntity.ok(resourceService.searchResourcesByCity(city));
     }
 
     @DeleteMapping("{id}")

@@ -57,7 +57,7 @@ public class ResourceService {
                             return locationRepository.save(newLocation);
                         });
             }
-            if (city != null && location.getCity() == null) {
+            if (city != null && !city.equals(location.getCity())) {
                 location.setCity(city);
                 locationRepository.save(location);
             }

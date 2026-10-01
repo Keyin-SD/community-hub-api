@@ -77,4 +77,17 @@ public class City {
     public void setLocations(List<Location> locations) {
         this.locations = locations;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        City city = (City) o;
+        return cityId != null && cityId.equals(city.cityId);
+    }
+
+    @Override
+    public int hashCode() {
+        return cityId != null ? cityId.hashCode() : 0;
+    }
 }

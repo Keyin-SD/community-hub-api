@@ -14,7 +14,7 @@ public class CityService {
         if (city == null || city.getCityName() == null || city.getCityName().isBlank()) {
             throw new IllegalArgumentException("City name cannot be null or empty");
         }
-        if (cityRepository.existsByCityNameIgnoreCase(city.getCityName())) {
+        if (cityRepository.findByCityNameNormalized(city.getCityName()).isPresent()) {
             throw new IllegalArgumentException("City '" + city.getCityName() + "' already exists");
         }
         city.setCityId(null);
@@ -45,7 +45,7 @@ public class CityService {
     }
 
     public City findOrCreateCity(String cityName) {
-        return cityRepository.findByCityNameIgnoreCase(cityName)
+        return cityRepository.findByCityNameNormalized(cityName)
                 .orElseGet(() -> {
                     City newCity = new City(cityName);
                     return cityRepository.save(newCity);

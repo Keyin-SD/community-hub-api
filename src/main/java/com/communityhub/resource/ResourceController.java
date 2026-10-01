@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/resources")
-@CrossOrigin(origins = {"http://localhost:5173", "https://your-frontend-domain"})
+@CrossOrigin(origins = {"http://localhost:5173", "https://commiunity-hub-frontend.vercel.app"})
 public class ResourceController {
     @Autowired
     private ResourceService resourceService;

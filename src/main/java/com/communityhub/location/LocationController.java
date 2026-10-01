@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:5173", "https://your-frontend-url.com"})
+@CrossOrigin(origins = {"http://localhost:5173", "https://commiunity-hub-frontend.vercel.app"})
 @RequestMapping("api/location")
 public class LocationController {
     @Autowired

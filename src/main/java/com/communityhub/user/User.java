@@ -2,6 +2,7 @@ package com.communityhub.user;
 
 import com.communityhub.resource.Resource;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +22,9 @@ public class User {
     private String userPhone;
     private String userAddress;
     private String profilePicUrl;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 
     @OneToMany(mappedBy = "postedBy")
     @JsonIgnore
@@ -83,6 +87,14 @@ public class User {
 
     public void setProfilePicUrl(String profilePicUrl) {
         this.profilePicUrl = profilePicUrl;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Resource> getResources() {

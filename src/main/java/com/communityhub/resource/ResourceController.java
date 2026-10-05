@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/resources")
 @CrossOrigin(origins = {"http://localhost:5173", "https://commiunity-hub-frontend.vercel.app"})
@@ -16,18 +18,19 @@ public class ResourceController {
     private ResourceService resourceService;
 
     @PostMapping()
-    public ResponseEntity<String> createNewResource(@RequestBody Resource resource) {
-        resourceService.createResource(resource);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Resource created successfully");
+    public ResponseEntity<ResourceResponseDTO> createNewResource(@RequestBody Resource resource) {
+        Resource saved = resourceService.createResource(resource);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResourceResponseDTO.from(saved));
     }
 
     @GetMapping("allResources")
-    public ResponseEntity<Page<Resource>> getAllResources(
+    public ResponseEntity<Page<ResourceResponseDTO>> getAllResources(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "resourceId") String sortBy) {
-        Page<Resource> resources = resourceService.getAllResources(
-                PageRequest.of(page, size, Sort.by(sortBy)));
+        Page<ResourceResponseDTO> resources = resourceService.getAllResources(
+                PageRequest.of(page, size, Sort.by(sortBy)))
+                .map(ResourceResponseDTO::from);
         return ResponseEntity.ok(resources);
     }
 
@@ -38,6 +41,11 @@ public class ResourceController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @GetMapping("search")
+    public ResponseEntity<List<Resource>> search(@RequestParam String q) {
+        return ResponseEntity.ok(resourceService.searchAll(q));
+    }
+
     @GetMapping("searchByCategory/{category}")
     public ResponseEntity<Iterable<Resource>> searchByCategory(@PathVariable String category) {
         return ResponseEntity.ok(resourceService.searchResourcesByCategory(category));
@@ -46,11 +54,6 @@ public class ResourceController {
     @GetMapping("searchByTitle/{title}")
     public ResponseEntity<Iterable<Resource>> searchByTitle(@PathVariable String title) {
         return ResponseEntity.ok(resourceService.searchResourcesByTitle(title));
-    }
-
-    @GetMapping("searchByContactName/{contactName}")
-    public ResponseEntity<Iterable<Resource>> searchByContactName(@PathVariable String contactName) {
-        return ResponseEntity.ok(resourceService.searchResourcesByContactName(contactName));
     }
 
     @GetMapping("searchByLocation/{location}")

@@ -1,6 +1,7 @@
 package com.communityhub.resource;
 
 import com.communityhub.location.Location;
+import com.communityhub.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,25 +20,23 @@ public class Resource {
     private String resourceTime;
     private String resourceLocation;
     private Double resourcePrice;
-    private String contactName;
-    private String contactEmail;
-    private String contactPhone;
     private String contactWebsiteUrl;
 
     @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
 
-    public Resource(String resourceTitle, String resourceDescription, String resourceCategory, String resourceTime, String resourceLocation, Double resourcePrice, String contactName, String contactEmail, String contactPhone, String contactWebsiteUrl) {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User postedBy;
+
+    public Resource(String resourceTitle, String resourceDescription, String resourceCategory, String resourceTime, String resourceLocation, Double resourcePrice, String contactWebsiteUrl) {
         this.resourceTitle = resourceTitle;
         this.resourceDescription = resourceDescription;
         this.resourceCategory = resourceCategory;
         this.resourceTime = resourceTime;
         this.resourceLocation = resourceLocation;
         this.resourcePrice = resourcePrice;
-        this.contactName = contactName;
-        this.contactEmail = contactEmail;
-        this.contactPhone = contactPhone;
         this.contactWebsiteUrl = contactWebsiteUrl;
     }
 
@@ -100,30 +99,6 @@ public class Resource {
         this.resourcePrice = resourcePrice;
     }
 
-    public String getContactName() {
-        return contactName;
-    }
-
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
-
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-
-    public String getContactPhone() {
-        return contactPhone;
-    }
-
-    public void setContactPhone(String contactPhone) {
-        this.contactPhone = contactPhone;
-    }
-
     public String getContactWebsiteUrl() {
         return contactWebsiteUrl;
     }
@@ -140,6 +115,14 @@ public class Resource {
         this.location = location;
     }
 
+    public User getPostedBy() {
+        return postedBy;
+    }
+
+    public void setPostedBy(User postedBy) {
+        this.postedBy = postedBy;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Resource{");
@@ -150,9 +133,6 @@ public class Resource {
         sb.append(", resourceTime='").append(resourceTime).append('\'');
         sb.append(", resourceLocation='").append(resourceLocation).append('\'');
         sb.append(", resourcePrice=").append(resourcePrice);
-        sb.append(", contactName='").append(contactName).append('\'');
-        sb.append(", contactEmail='").append(contactEmail).append('\'');
-        sb.append(", contactPhone='").append(contactPhone).append('\'');
         sb.append(", contactWebsiteUrl='").append(contactWebsiteUrl).append('\'');
         sb.append('}');
         return sb.toString();

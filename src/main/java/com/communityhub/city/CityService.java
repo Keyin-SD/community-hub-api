@@ -45,9 +45,13 @@ public class CityService {
     }
 
     public City findOrCreateCity(String cityName) {
+        return findOrCreateCity(cityName, null, null);
+    }
+
+    public City findOrCreateCity(String cityName, Long population, String province) {
         return cityRepository.findByCityNameNormalized(cityName)
                 .orElseGet(() -> {
-                    City newCity = new City(cityName);
+                    City newCity = new City(cityName, population, province);
                     return cityRepository.save(newCity);
                 });
     }

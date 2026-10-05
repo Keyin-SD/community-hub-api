@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,7 +32,11 @@ public class ResourceService {
             // Resolve city if provided
             City city = null;
             if (incoming.getCity() != null && incoming.getCity().getCityName() != null) {
-                city = cityService.findOrCreateCity(incoming.getCity().getCityName());
+                City incomingCity = incoming.getCity();
+                city = cityService.findOrCreateCity(
+                        incomingCity.getCityName(),
+                        incomingCity.getPopulation(),
+                        incomingCity.getProvince());
             }
 
             Location location;
@@ -74,13 +79,13 @@ public class ResourceService {
         }
     }
 
-    public void createResource(Resource resource) {
+    public Resource createResource(Resource resource) {
         if (resource == null || resource.getResourceTitle() == null) {
             throw new IllegalArgumentException("Resource cannot be null or have null fields");
         }
         resource.setResourceId(null);
         resolveLocation(resource, null);
-        resourceRepository.save(resource);
+        return resourceRepository.save(resource);
     }
 
     public Page<Resource> getAllResources(Pageable pageable) {
@@ -102,8 +107,8 @@ public class ResourceService {
         return resourceRepository.findByResourceTitleContainingIgnoreCase(title);
     }
 
-    public Iterable<Resource> searchResourcesByContactName(String contactName) {
-        return resourceRepository.findByContactNameContainingIgnoreCase(contactName);
+    public List<Resource> getResourcesByUserId(Long userId) {
+        return resourceRepository.findByPostedBy_UserId(userId);
     }
 
     public Iterable<Resource> searchResourcesByLocation(String location) {
@@ -112,6 +117,10 @@ public class ResourceService {
 
     public Iterable<Resource> searchResourcesByCity(String cityName) {
         return resourceRepository.findByLocation_City_CityNameContainingIgnoreCase(cityName);
+    }
+
+    public List<Resource> searchAll(String query) {
+        return resourceRepository.searchAll(query);
     }
 
     public void removeResource(Long id) {
@@ -129,9 +138,6 @@ public class ResourceService {
             existingResource.setResourceTime(updatedResource.getResourceTime());
             existingResource.setResourceLocation(updatedResource.getResourceLocation());
             existingResource.setResourcePrice(updatedResource.getResourcePrice());
-            existingResource.setContactName(updatedResource.getContactName());
-            existingResource.setContactEmail(updatedResource.getContactEmail());
-            existingResource.setContactPhone(updatedResource.getContactPhone());
             existingResource.setContactWebsiteUrl(updatedResource.getContactWebsiteUrl());
             resolveLocation(existingResource, updatedResource.getLocation());
             return resourceRepository.save(existingResource);
@@ -157,15 +163,6 @@ public class ResourceService {
             }
             if (patch.getResourcePrice() != null) {
                 existingResource.setResourcePrice(patch.getResourcePrice());
-            }
-            if (patch.getContactName() != null) {
-                existingResource.setContactName(patch.getContactName());
-            }
-            if (patch.getContactEmail() != null) {
-                existingResource.setContactEmail(patch.getContactEmail());
-            }
-            if (patch.getContactPhone() != null) {
-                existingResource.setContactPhone(patch.getContactPhone());
             }
             if (patch.getContactWebsiteUrl() != null) {
                 existingResource.setContactWebsiteUrl(patch.getContactWebsiteUrl());
